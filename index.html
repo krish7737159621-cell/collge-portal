@@ -1,728 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Semester Result | JIIT Noida</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        background: #f2f4f7;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <title>JIIT Student Portal</title>
 
-      .page {
-        max-width: 900px;
-        margin: 40px auto;
-        background: #ffffff;
-        padding: 40px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      }
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f2f4f7;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-      .header {
-        text-align: center;
-        border-bottom: 2px solid #003366;
-        padding-bottom: 20px;
-        margin-bottom: 30px;
-      }
+    /* LOGIN */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-      .header h1 {
-        margin: 0;
-        color: #003366;
-        font-size: 26px;
-        font-weight: 700;
-      }
+    .login-box {
+      background: #fff;
+      padding: 40px;
+      width: 350px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+    }
 
-      .header p {
-        margin: 6px 0;
-        font-size: 14px;
-        color: #444;
-      }
+    .login-box h2 {
+      text-align: center;
+      color: #003366;
+      margin-bottom: 30px;
+    }
 
-      .header h2 {
-        margin-top: 20px;
-        font-size: 20px;
-        text-decoration: underline;
-        color: #000;
-      }
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      font-size: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
 
-      .info {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px 40px;
-        margin-bottom: 30px;
-        font-size: 15px;
-      }
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background: #003366;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-      .info span {
-        font-weight: 600;
-      }
+    /* RESULT PAGE */
+    .page {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      display: none;
+    }
 
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 30px;
-      }
+    .header {
+      text-align: center;
+      border-bottom: 2px solid #003366;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
 
-      table th,
-      table td {
-        border: 1px solid #999;
-        padding: 12px;
-        text-align: center;
-        font-size: 15px;
-      }
+    .header h1 {
+      margin: 0;
+      color: #003366;
+      font-size: 26px;
+    }
 
-      table th {
-        background: #003366;
-        color: white;
-      }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
 
-      table tr:nth-child(even) {
-        background: #f7f9fc;
-      }
+    table th,
+    table td {
+      border: 1px solid #999;
+      padding: 10px;
+      text-align: center;
+    }
 
-      .cgpa-box {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 20px;
-      }
+    table th {
+      background: #003366;
+      color: white;
+    }
 
-      .cgpa {
-        background: #003366;
-        color: white;
-        padding: 18px 30px;
-        font-size: 18px;
-        border-radius: 6px;
-        font-weight: 600;
-      }
+    .sem-btn {
+      padding: 10px 18px;
+      font-size: 15px;
+      background: #003366;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 8px 0;
+    }
 
-      .footer {
-        margin-top: 40px;
-        display: flex;
-        justify-content: space-between;
-        font-size: 14px;
-        color: #444;
-      }
+    .logout {
+      float: right;
+      background: crimson;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
 
-      .sign {
-        margin-top: 50px;
-        text-align: center;
-      }
+<body>
 
-      .sign span {
-        display: block;
-        margin-top: 6px;
-        font-weight: 600;
-      }
+<!-- LOGIN -->
+<div class="login-container" id="loginBox">
+  <div class="login-box">
+    <h2>Student Login</h2>
+    <input type="text" id="enroll" placeholder="Enrollment ID" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+  </div>
+</div>
 
-      @media (max-width: 700px) {
-        .info {
-          grid-template-columns: 1fr;
-        }
-        .footer {
-          flex-direction: column;
-          gap: 20px;
-          text-align: center;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="page">
-      <div class="header">
-        <h1>Jaypee Institute of Information Technology</h1>
-        <p>Noida Sector 62, Uttar Pradesh</p>
-        <h2>Semester-wise Result Sheet</h2>
-      </div>
+<!-- RESULT -->
+<div class="page" id="resultPage">
 
-      <div class="info">
-        <div><span>Student Name:</span> Aman Pandey</div>
-        <div><span>Institute:</span> JIIT Noida</div>
-        <div><span>Program:</span> Intg Electronics and Comunnication</div>
-        <div><span>Status:</span> Result Declared</div>
-      </div>
+  <button class="sem-btn logout" onclick="logout()">Logout</button>
 
-      <table>
-        <tr>
-          <th>Semester</th>
-          <th>SGPA</th>
-        </tr>
-        <tr>
-          <td>1st Semester</td>
-          <td>5.6</td>
-        </tr>
-        <tr>
-          <td>2nd Semester</td>
-          <td>5.4</td>
-        </tr>
-        <tr>
-          <td>3rd Semester</td>
-          <td>5.7</td>
-        </tr>
-        <tr>
-          <td>4th Semester</td>
-          <td>5.9</td>
-        </tr>
-        <tr>
-          <td>5th Semester</td>
-          <td>6.7</td>
-        </tr>
-        <tr>
-          <td>6th Semester</td>
-          <td>5.3</td>
-        </tr>
-        <tr>
-          <td>7th Semester</td>
-          <td>7.4</td>
-        </tr>
-      </table>
+  <div class="header">
+    <h1>Jaypee Institute of Information Technology</h1>
+    <p>Noida Sector 62, Uttar Pradesh</p>
+    <h3>Semester-wise Result Sheet</h3>
+  </div>
 
-      <div class="cgpa-box">
-        <div class="cgpa">Final CGPA (Till Now): <strong>6.0</strong></div>
-      </div>
+  <p><b>Student Name:</b> Aman Pandey</p>
+  <p><b>Enrollment:</b> 22802015</p>
 
-      <div class="footer">
-        <div>
-          Date of Issue:<br />
-          <strong>15/01/2026</strong>
-        </div>
+  <table>
+    <tr>
+      <th>Semester</th>
+      <th>SGPA</th>
+    </tr>
+    <tr><td>Semester 1</td><td>5.6</td></tr>
+    <tr><td>Semester 2</td><td>5.4</td></tr>
+    <tr><td>Semester 3</td><td>5.7</td></tr>
+    <tr><td>Semester 4</td><td>5.9</td></tr>
+    <tr><td>Semester 5</td><td>6.7</td></tr>
+    <tr><td>Semester 6</td><td>5.3</td></tr>
+    <tr><td>Semester 7</td><td>7.4</td></tr>
+  </table>
 
-        <div class="sign">
-          ___________________________<br />
-          <span>Controller of Examinations</span>
-        </div>
-      </div>
-    </div>
-  </body>
+  <h3>Final CGPA: <span style="color:#003366">6.0</span></h3>
+
+</div>
+
+<script>
+  function login() {
+    const id = document.getElementById("enroll").value;
+    const pass = document.getElementById("password").value;
+
+    if (id === "22802015" && pass === "aman@2002") {
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("resultPage").style.display = "block";
+    } else {
+      alert("Invalid Enrollment ID or Password");
+    }
+  }
+
+  function logout() {
+    document.getElementById("resultPage").style.display = "none";
+    document.getElementById("loginBox").style.display = "flex";
+  }
+</script>
+
+</body>
 </html>
-<button
-  onclick="toggleSem1()"
-  style="
-    padding: 12px 20px;
-    font-size: 16px;
-    background: #003366;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  "
->
-  Semester 1
-</button>
-
-<div id="sem1" style="display: none; margin-top: 20px">
-  <table style="width: 100%; border-collapse: collapse">
-    <tr style="background: #003366; color: white">
-      <th style="border: 1px solid #999; padding: 10px">Subject Code</th>
-      <th style="border: 1px solid #999; padding: 10px">Subject</th>
-      <th style="border: 1px solid #999; padding: 10px">Grade</th>
-    </tr>
-
-    <tr>
-      <td>15B11CI111</td>
-      <td>Software Development Fundamentals-1</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>15B11HS112</td>
-      <td>English</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>15B11MA111</td>
-      <td>Mathematics-1</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>15B11PH111</td>
-      <td>Physics-1</td>
-      <td>B</td>
-    </tr>
-    <tr>
-      <td>15B17CI171</td>
-      <td>Software Development Lab-1</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>15B17PH171</td>
-      <td>Physics Lab-1</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>18B15GE112</td>
-      <td>Workshop</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>21B19GE111</td>
-      <td>Bridge Course-1</td>
-      <td>D</td>
-    </tr>
-  </table>
-
-  <p style="margin-top: 15px; font-weight: 600">
-    SGPA (Semester 1): <span style="color: #003366">5.6</span>
-  </p>
-</div>
-
-<script>
-  function toggleSem1() {
-    const div = document.getElementById("sem1");
-    div.style.display = div.style.display === "none" ? "block" : "none";
-  }
-</script>
-<button onclick="toggleSem2()" style=" padding: 12px 22px; font-size: 16px;
-background: #003366; color: white; border: none; border-radius: 6px; cursor:
-pointer; margin-bottom: 20px; >
-<button class="sem-btn" onclick="toggleSem2()">Semester 2</button>
-<div id="sem2" style="display: none; margin-bottom: 30px">
-  <table>
-    <tr>
-      <th>Subject Code</th>
-      <th>Subject Description</th>
-      <th>Grade</th>
-    </tr>
-
-    <tr>
-      <td>15B11CI211</td>
-      <td>Software Development Fundamentals-2</td>
-      <td>D</td>
-    </tr>
-    <tr>
-      <td>15B11EC111</td>
-      <td>Electrical Science-1</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>15B11MA211</td>
-      <td>Mathematics-2</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>15B11PH211</td>
-      <td>Physics-2</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>15B17CI271</td>
-      <td>Software Development Lab-2</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>15B17EC171</td>
-      <td>Electrical Science Lab-1</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>15B17PH271</td>
-      <td>Physics Lab-2</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>18B15GE111</td>
-      <td>Engineering Drawing & Design</td>
-      <td>B</td>
-    </tr>
-    <tr>
-      <td>22B12HS111</td>
-      <td>Life Skills and Effective Communication</td>
-      <td>B</td>
-    </tr>
-  </table>
-
-  <p style="margin-top: 10px; font-weight: 600">
-    SGPA (Semester 2): <span style="color: #003366">5.4</span>
-  </p>
-</div>
-<script>
-  function toggleSem2() {
-    const sem = document.getElementById("sem2");
-    sem.style.display = sem.style.display === "none" ? "block" : "none";
-  }
-</script>
-<button
-  onclick="toggleSem3()"
-  style="
-    padding: 12px 20px;
-    font-size: 16px;
-    background: #003366;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  "
->
-  Semester 3
-</button>
-<div id="sem3" style="display: none; margin-bottom: 30px">
-  <table>
-    <tr>
-      <th>Subject Code</th>
-      <th>Subject Description</th>
-      <th>Grade</th>
-    </tr>
-
-    <tr>
-      <td>15B11EC211</td>
-      <td>Electrical Science-2</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>15B11HS211</td>
-      <td>Economics</td>
-      <td>D</td>
-    </tr>
-    <tr>
-      <td>15B11MA301</td>
-      <td>Probability and Random Processes</td>
-      <td>D</td>
-    </tr>
-    <tr>
-      <td>15B17EC271</td>
-      <td>Electrical Science Lab-2</td>
-      <td>D</td>
-    </tr>
-    <tr>
-      <td>18B11EC214</td>
-      <td>Signals & Systems</td>
-      <td>B</td>
-    </tr>
-    <tr>
-      <td>18B11EC215</td>
-      <td>Digital Circuit Design</td>
-      <td>D</td>
-    </tr>
-    <tr>
-      <td>18B15EC214</td>
-      <td>Signals & Systems Lab</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>18B15EC215</td>
-      <td>Digital Circuit Design Lab</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>19B13BT211</td>
-      <td>Environmental Studies</td>
-      <td>B</td>
-    </tr>
-    <tr>
-      <td>22B15HS211</td>
-      <td>Professional Communication Practice</td>
-      <td>C+</td>
-    </tr>
-  </table>
-
-  <p style="margin-top: 10px; font-weight: 600">
-    SGPA (Semester 3): <span style="color: #003366">5.7</span>
-  </p>
-</div>
-<script>
-  function toggleSem3() {
-    const sem = document.getElementById("sem3");
-    sem.style.display = sem.style.display === "none" ? "block" : "none";
-  }
-</script>
-<button
-  onclick="toggleSem4()"
-  style="
-    padding: 12px 20px;
-    font-size: 16px;
-    background: #003366;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  "
->
-  Semester 4
-</button>
-<div id="sem4" style="display: none; margin-bottom: 30px">
-  <table>
-    <tr>
-      <th>Subject Code</th>
-      <th>Subject Description</th>
-      <th>Grade</th>
-    </tr>
-
-    <tr>
-      <td>15B11EC411</td>
-      <td>Analogue Electronics</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>15B11EC413</td>
-      <td>Digital Signal Processing</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>15B17EC471</td>
-      <td>Analogue Electronics Lab</td>
-      <td>D</td>
-    </tr>
-    <tr>
-      <td>15B17EC473</td>
-      <td>Digital Signal Processing Lab</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>18B11EC212</td>
-      <td>Analog and Digital Communication</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>18B15EC212</td>
-      <td>Analog and Digital Communication Lab</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>19B12HS412</td>
-      <td>Industrial Economics</td>
-      <td>C+</td>
-    </tr>
-  </table>
-
-  <p style="margin-top: 10px; font-weight: 600">
-    SGPA (Semester 4): <span style="color: #003366">5.9</span>
-  </p>
-</div>
-<script>
-  function toggleSem4() {
-    const sem = document.getElementById("sem4");
-    sem.style.display = sem.style.display === "none" ? "block" : "none";
-  }
-</script>
-<button
-  onclick="toggleSem5()"
-  style="
-    padding: 12px 20px;
-    font-size: 16px;
-    background: #003366;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  "
->
-  Semester 5
-</button>
-<div id="sem5" style="display: none; margin-bottom: 30px">
-  <table>
-    <tr>
-      <th>Subject Code</th>
-      <th>Subject Description</th>
-      <th>Grade</th>
-    </tr>
-
-    <tr>
-      <td>15B11CI518</td>
-      <td>Data Structures and Algorithms</td>
-      <td>B</td>
-    </tr>
-    <tr>
-      <td>15B11EC313</td>
-      <td>Microprocessors and Microcontrollers</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>15B17CI578</td>
-      <td>Data Structures and Algorithms Lab</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>15B19EC591</td>
-      <td>Minor Project-1</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>16B11MA531</td>
-      <td>Discrete Mathematics</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>18B11EC312</td>
-      <td>Electromagnetic Field Theory</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>18B15EC312</td>
-      <td>Electromagnetic Field Theory Lab</td>
-      <td>B</td>
-    </tr>
-    <tr>
-      <td>18B15EC313</td>
-      <td>Embedded Systems / IoT Lab</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>18B15EC314</td>
-      <td>Python for Signal Processing & Communication</td>
-      <td>B</td>
-    </tr>
-    <tr>
-      <td>20B13HS311</td>
-      <td>Indian Constitution & Traditional Knowledge</td>
-      <td>B</td>
-    </tr>
-  </table>
-
-  <p style="margin-top: 10px; font-weight: 600">
-    SGPA (Semester 5): <span style="color: #003366">6.7</span>
-  </p>
-</div>
-<script>
-  function toggleSem5() {
-    const sem = document.getElementById("sem5");
-    sem.style.display = sem.style.display === "none" ? "block" : "none";
-  }
-</script>
-<button
-  onclick="toggleSem6()"
-  style="
-    padding: 12px 20px;
-    font-size: 16px;
-    background: #003366;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  "
->
-  Semester 6
-</button>
-<div id="sem6" style="display: none; margin-bottom: 30px">
-  <table>
-    <tr>
-      <th>Subject Code</th>
-      <th>Subject Description</th>
-      <th>Grade</th>
-    </tr>
-
-    <tr>
-      <td>15B11EC611</td>
-      <td>Telecommunication Networks</td>
-      <td>D</td>
-    </tr>
-    <tr>
-      <td>15B17EC671</td>
-      <td>Telecommunication Networks Lab</td>
-      <td>B+</td>
-    </tr>
-    <tr>
-      <td>15B19EC691</td>
-      <td>Minor Project-2</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>18B11EC315</td>
-      <td>VLSI Design</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>18B12EC311</td>
-      <td>Advanced Radio Access Networks</td>
-      <td>D</td>
-    </tr>
-    <tr>
-      <td>18B12MA612</td>
-      <td>Applied Mathematical Methods</td>
-      <td>D</td>
-    </tr>
-    <tr>
-      <td>18B15EC315</td>
-      <td>VLSI Design Lab-II</td>
-      <td>C+</td>
-    </tr>
-    <tr>
-      <td>20B12HS311</td>
-      <td>Global Politics</td>
-      <td>C</td>
-    </tr>
-    <tr>
-      <td>20B16CS323</td>
-      <td>Problem Solving using C and C++</td>
-      <td>D</td>
-    </tr>
-    <tr>
-      <td>24B12EC411</td>
-      <td>Fundamentals of Electric Vehicle</td>
-      <td>C+</td>
-    </tr>
-  </table>
-
-  <p style="margin-top: 10px; font-weight: 600">
-    SGPA (Semester 6): <span style="color: #003366">5.3</span>
-  </p>
-</div>
-<script>
-  function toggleSem6() {
-    const sem = document.getElementById("sem6");
-    sem.style.display = sem.style.display === "none" ? "block" : "none";
-  }
-</script>
-<button
-  onclick="toggleSem7()"
-  style="
-    padding: 12px 20px;
-    font-size: 16px;
-    background: #003366;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  "
->
-  Semester 7
-</button>
-<div id="sem7" style="display: none; margin-bottom: 30px">
-  <table>
-    <tr>
-      <th>Subject Code</th>
-      <th>Subject Description</th>
-      <th>Grade</th>
-    </tr>
-
-    <tr>
-      <td>15B19EC791</td>
-      <td>Major Project Part-1</td>
-      <td>B+</td>
-    </tr>
-    <tr>
-      <td>15B19EC793</td>
-      <td>Summer Training Viva</td>
-      <td>B</td>
-    </tr>
-    <tr>
-      <td>16B11NEC832</td>
-      <td>MIMO-OFDM Applications to Wireless Communications</td>
-      <td>B</td>
-    </tr>
-    <tr>
-      <td>17B11EC733</td>
-      <td>Optical Communication</td>
-      <td>B</td>
-    </tr>
-    <tr>
-      <td>17B11NBT733</td>
-      <td>Stress: Biology, Behaviour and Management</td>
-      <td>B</td>
-    </tr>
-    <tr>
-      <td>20B12EC413</td>
-      <td>Basics of Antenna and Wave Propagation</td>
-      <td>B+</td>
-    </tr>
-  </table>
-
-  <p style="margin-top: 10px; font-weight: 600">
-    SGPA (Semester 7): <span style="color: #003366">7.4</span>
-  </p>
-</div>
-<script>
-  function toggleSem7() {
-    const sem = document.getElementById("sem7");
-    sem.style.display = sem.style.display === "none" ? "block" : "none";
-  }
-</script>
-
