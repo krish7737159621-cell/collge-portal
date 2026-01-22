@@ -3,6 +3,87 @@
   <head>
     <meta charset="UTF-8" />
     <title>Semester Result | JIIT Noida</title>
+    <div id="loginPage" style="
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f2f4f7;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+">
+  <div style="
+    background: #fff;
+    padding: 40px;
+    width: 350px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    text-align: center;
+  ">
+    <h2 style="color:#003366; margin-bottom: 20px;">
+      Student Login
+    </h2>
+
+    <input
+      type="text"
+      id="enrollment"
+      placeholder="Enrollment ID"
+      style="
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        font-size: 15px;
+      "
+    />
+
+    <input
+      type="password"
+      id="password"
+      placeholder="Password"
+      style="
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        font-size: 15px;
+      "
+    />
+
+    <button
+      onclick="login()"
+      style="
+        width: 100%;
+        padding: 12px;
+        background: #003366;
+        color: white;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 6px;
+      "
+    >
+      Login
+    </button>
+    <script>
+  function login() {
+    const enrollment = document.getElementById("enrollment").value;
+    const password = document.getElementById("password").value;
+
+    if (enrollment === "22802015" && password === "aman@2002") {
+      document.getElementById("loginPage").style.display = "none";
+      document.getElementById("resultPage").style.display = "block";
+    } else {
+      document.getElementById("error").innerText =
+        "Invalid Enrollment ID or Password";
+    }
+  }
+</script>
+
+
+    <p id="error" style="color:red; margin-top:15px;"></p>
+  </div>
+</div>
+<div id="resultPage" style="display:none;">
+  <!-- 🔥 PUT YOUR FULL EXISTING RESULT PAGE CODE HERE 🔥 -->
+
     <style>
       body {
         margin: 0;
@@ -725,5 +806,6 @@ pointer; margin-bottom: 20px; >
     sem.style.display = sem.style.display === "none" ? "block" : "none";
   }
 </script>
+
 
 
